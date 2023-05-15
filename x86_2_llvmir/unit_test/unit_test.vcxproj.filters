@@ -32,5 +32,8 @@
     <ClInclude Include="..\Core\Zydis.h">
       <Filter>zydis</Filter>
     </ClInclude>
+    <ClInclude Include="unit_test.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

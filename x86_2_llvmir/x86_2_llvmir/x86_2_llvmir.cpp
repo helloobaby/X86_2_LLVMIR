@@ -1,7 +1,6 @@
 ﻿#include "../Core/lifting.hpp"
+#include "../unit_test/unit_test.hpp"
 
-#include "llvm/IR/LLVMContext.h"
-#include "llvm/IR/Module.h"
 #include <algorithm>
 #include <cstdlib>
 #include <memory>
@@ -9,13 +8,11 @@
 #include <vector>
 #include <fstream>
 
-using namespace llvm;
-
 int main(int argc, char** argv) {
-  LLVMContext Context;
+  llvm::LLVMContext Context;
 
-  std::unique_ptr<Module> Owner(new Module("main.c", Context));
-  Module* Module = Owner.get();
+  std::unique_ptr<llvm::Module> Owner(new llvm::Module("main.c", Context));
+  llvm::Module* Module = Owner.get();
 
   auto* f = llvm::Function::Create(
       llvm::FunctionType::get(llvm::Type::getVoidTy(Context), false),
@@ -28,25 +25,16 @@ int main(int argc, char** argv) {
   irb.SetInsertPoint(ret);
 
   env_init(Owner);
-  init_reg_llvmtype_map(Owner);
-  create_reg(Owner);
 
-  auto bytes = keystone::util_assembly_to_bytes_32("mov     eax, 0FFFFFFFFh");
-  dispatch32(zydis::ZydisDisassmbly(bytes),irb);
-  bytes = keystone::util_assembly_to_bytes_32("sub     eax, 0F3h");
-  dispatch32(zydis::ZydisDisassmbly(bytes),irb);
-  bytes = keystone::util_assembly_to_bytes_32("not     eax");
-  //dispatch32(zydis::ZydisDisassmbly(bytes),irb);
+  // opcode unit test
+  //mov_op_test(irb);
+  mov_op_test2(irb);
+  // end
 
-  Module->print(outs(), nullptr);
+  Module->print(llvm::outs(), nullptr);
   std::error_code e;
   llvm::raw_fd_ostream ofd("main.ll",e);
   Module->print(ofd,nullptr);
-
-  system("opt.exe -O3 main.ll -o main_opt.bc");
-  system("llc.exe main_opt.bc -x86-asm-syntax=intel -march=x86");
-  system("clang.exe -c main_opt.bc -m32");
-
 
   return 0;
 }

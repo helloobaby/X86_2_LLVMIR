@@ -2,9 +2,12 @@
 //
 
 #include <iostream>
+#include "unit_test.hpp"
 #include "../Core/utils.hpp"
 
+
 using namespace std;
+
 
 void test1() {
   auto v = keystone::util_assembly_to_bytes_32("pushf");
@@ -24,6 +27,8 @@ void test3() {
   insn = zydis::ZydisDisassmbly({std::begin(arr2), std::end(arr2)});
   printf("%s\n", insn.text);
 }
+
+
 
 int main() {
   

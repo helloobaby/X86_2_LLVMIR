@@ -10,9 +10,5 @@ source_filename = "main.c"
 
 define void @root() {
 entry:
-  store i32 -1, i32* @eax, align 4
-  %0 = load i32, i32* @eax, align 4
-  %1 = sub i32 %0, 243
-  store i32 %1, i32* @eax, align 4
   ret void
 }

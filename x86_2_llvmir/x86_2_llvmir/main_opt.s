@@ -15,9 +15,8 @@
 	.p2align	4, 0x90
 _root:                                  # @root
 # %bb.0:                                # %entry
-	mov	dword ptr [_ebx], -1
-	mov	eax, 242
-	sub	eax, dword ptr [_eax]
-	mov	dword ptr [_eax], eax
+	mov	dword ptr [_ebx], 32
+	mov	dword ptr [_eax], -1
+	not	word ptr [_ax]
 	ret
                                         # -- End function

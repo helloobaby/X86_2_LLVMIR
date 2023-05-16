@@ -26,15 +26,16 @@ int main(int argc, char** argv) {
 
   env_init(Owner);
 
-  // opcode unit test
-  //mov_op_test(irb);
-  mov_op_test2(irb);
-  // end
+  do_unit_test(irb);
 
   Module->print(llvm::outs(), nullptr);
   std::error_code e;
   llvm::raw_fd_ostream ofd("main.ll",e);
   Module->print(ofd,nullptr);
+
+  system("opt.exe -O3 main.ll -o main_opt.bc");
+  system("llc.exe main_opt.bc -x86-asm-syntax=intel -march=x86");
+  system("clang.exe -c main_opt.bc -m32");
 
   return 0;
 }

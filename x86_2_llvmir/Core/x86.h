@@ -1,7 +1,6 @@
 #pragma once
 #include <map>
-
-#include "Zydis.h"
+#include "utils.hpp"
 
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/Module.h"
@@ -12,6 +11,7 @@ std::map<ZydisRegister, llvm::GlobalVariable*> kIrGlobalRegMap;
 
 void init_reg_llvmtype_map(std::unique_ptr<llvm::Module>& Module) {
 	auto* i1 = llvm::IntegerType::getInt1Ty(Module->getContext());
+    //i1->print(llvm::outs(),true);
 	auto* i2 = llvm::IntegerType::getIntNTy(Module->getContext(), 2);
 	auto* i3 = llvm::IntegerType::getIntNTy(Module->getContext(), 3);
 	auto* i8 = llvm::IntegerType::getInt8Ty(Module->getContext());
@@ -119,12 +119,26 @@ llvm::GlobalVariable* create_reg(std::unique_ptr<llvm::Module>& Module) {
   Module->getOrInsertGlobal("esi", k_r2t.find(ZYDIS_REGISTER_ESI)->second);
   Module->getOrInsertGlobal("edi", k_r2t.find(ZYDIS_REGISTER_EDI)->second);
 
+  Module->getOrInsertGlobal("ax", k_r2t.find(ZYDIS_REGISTER_AX)->second);
+  //Module->getOrInsertGlobal("bx", k_r2t.find(ZYDIS_REGISTER_BX)->second);
+  //Module->getOrInsertGlobal("cx", k_r2t.find(ZYDIS_REGISTER_CX)->second);
+  //Module->getOrInsertGlobal("dx", k_r2t.find(ZYDIS_REGISTER_DX)->second);
+  //Module->getOrInsertGlobal("si", k_r2t.find(ZYDIS_REGISTER_SI)->second);
+  //Module->getOrInsertGlobal("di", k_r2t.find(ZYDIS_REGISTER_DI)->second);
+
   kIrGlobalRegMap.insert({ZYDIS_REGISTER_EAX, Module->getNamedGlobal("eax")});
   kIrGlobalRegMap.insert({ZYDIS_REGISTER_EBX, Module->getNamedGlobal("ebx")});
   kIrGlobalRegMap.insert({ZYDIS_REGISTER_ECX, Module->getNamedGlobal("ecx")});
   kIrGlobalRegMap.insert({ZYDIS_REGISTER_EDX, Module->getNamedGlobal("edx")});
   kIrGlobalRegMap.insert({ZYDIS_REGISTER_ESI, Module->getNamedGlobal("esi")});
   kIrGlobalRegMap.insert({ZYDIS_REGISTER_EDI, Module->getNamedGlobal("edi")});
+
+  kIrGlobalRegMap.insert({ZYDIS_REGISTER_AX, Module->getNamedGlobal("ax")});
+  //kIrGlobalRegMap.insert({ZYDIS_REGISTER_BX, Module->getNamedGlobal("bx")});
+  //kIrGlobalRegMap.insert({ZYDIS_REGISTER_CX, Module->getNamedGlobal("cx")});
+  //kIrGlobalRegMap.insert({ZYDIS_REGISTER_DX, Module->getNamedGlobal("dx")});
+  //kIrGlobalRegMap.insert({ZYDIS_REGISTER_SI, Module->getNamedGlobal("si")});
+  //kIrGlobalRegMap.insert({ZYDIS_REGISTER_DI, Module->getNamedGlobal("di")});
 
   return nullptr;
 }

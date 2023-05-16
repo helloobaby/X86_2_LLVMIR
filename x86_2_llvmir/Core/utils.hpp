@@ -4,6 +4,8 @@
 #include <iterator>
 #include "Zydis.h"
 
+extern ZydisRegisterWidth ZydisRegisterGetWidth(ZydisMachineMode mode,
+                                                ZydisRegister reg);
 
 namespace keystone {
 ks_engine *ks = nullptr;
@@ -55,3 +57,21 @@ ZydisDisassembledInstruction ZydisDisassmbly(const std::vector<uint8_t> &bytes) 
   return insn;
 }
 }  // namespace zydis
+
+namespace llvm {
+
+auto LLVMGetCorrespondWidthInt(const ZydisDisassembledInstruction &insn,
+                               llvm::IRBuilder<> &irb, uint64_t C) {
+  auto width = ZydisRegisterGetWidth(ZYDIS_MACHINE_MODE_LONG_COMPAT_32,
+                                     insn.operands[0].reg.value);
+  if (width == 8) {
+    return irb.getInt8(C);
+  } else if (width == 16) {
+    return irb.getInt16(C);
+  } else if (width == 32) {
+    return irb.getInt32(C);
+  } else {
+    throw std::runtime_error("nonononoono!\n");
+  }
+}
+}  // namespace llvm

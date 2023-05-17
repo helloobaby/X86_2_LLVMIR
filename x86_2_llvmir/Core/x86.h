@@ -133,7 +133,7 @@ llvm::GlobalVariable* create_reg(std::unique_ptr<llvm::Module>& Module) {
   kIrGlobalRegMap.insert({ZYDIS_REGISTER_ESI, Module->getNamedGlobal("esi")});
   kIrGlobalRegMap.insert({ZYDIS_REGISTER_EDI, Module->getNamedGlobal("edi")});
 
-  kIrGlobalRegMap.insert({ZYDIS_REGISTER_AX, Module->getNamedGlobal("ax")});
+  //kIrGlobalRegMap.insert({ZYDIS_REGISTER_AX, Module->getNamedGlobal("ax")});
   //kIrGlobalRegMap.insert({ZYDIS_REGISTER_BX, Module->getNamedGlobal("bx")});
   //kIrGlobalRegMap.insert({ZYDIS_REGISTER_CX, Module->getNamedGlobal("cx")});
   //kIrGlobalRegMap.insert({ZYDIS_REGISTER_DX, Module->getNamedGlobal("dx")});

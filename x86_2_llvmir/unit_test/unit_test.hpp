@@ -23,8 +23,10 @@ void sub_op_test2(llvm::IRBuilder<>& irb) {
 }
 
 void mov_op_test3(llvm::IRBuilder<>& irb) {
-	//auto bytes = keystone::util_assembly_to_bytes_32("mov     ax, bx"); //eax = 0xffff0014
-  //dispatch32(zydis::ZydisDisassmbly(bytes), irb);
+  // 2023.5.16 not support 16bit-register
+  // auto bytes = keystone::util_assembly_to_bytes_32("mov     ax, bx"); //eax =
+  // 0xffff0014
+  // dispatch32(zydis::ZydisDisassmbly(bytes), irb);
 }
 
 void not_op_test1(llvm::IRBuilder<>& irb) {

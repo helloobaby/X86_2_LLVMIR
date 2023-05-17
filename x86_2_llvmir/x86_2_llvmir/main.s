@@ -15,9 +15,9 @@
 	.p2align	4, 0x90
 _root:                                  # @root
 # %bb.0:                                # %entry
+	mov	eax, offset _eax
 	mov	dword ptr [_ebx], 32
 	mov	dword ptr [_eax], 0
-	mov	eax, offset _eax
 	#APP
 
 	mov	eax, dword ptr [@eax]

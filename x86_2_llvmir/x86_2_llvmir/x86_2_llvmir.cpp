@@ -25,8 +25,12 @@ int main(int argc, char** argv) {
   irb.SetInsertPoint(ret);
 
   env_init(Owner);
-
   do_unit_test(irb);
+
+  // https://llvm.org/docs/LangRef.html#inline-assembler-expressions
+  // ???
+  llvm::InlineAsm* inlineAsm = llvm::InlineAsm::get(llvm::FunctionType::get(irb.getVoidTy(), false), "mov ebx,eax", "=r(i32* @ecx)", false, false, llvm::InlineAsm::AD_Intel);
+  irb.CreateCall(inlineAsm);
 
   Module->print(llvm::outs(), nullptr);
   std::error_code e;
